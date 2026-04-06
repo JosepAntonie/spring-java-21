@@ -11,7 +11,7 @@ Content-Type: application/json
 {
   "pageNumber": 0,
   "pageSize": 10,
-  "search": "JosAnt",
+  "search": null,
   "payload": {
     "active": true
   }
@@ -25,9 +25,9 @@ POST {{host}}/api/user
 Content-Type: application/json
 
 {
-  "username": "JosAnt",
-  "passphrase": "JosAnt!",
-  "code": "951009",
+  "username": "JosepAntonie",
+  "passphrase": "951009",
+  "code": null,
   "active": true,
   "person": {
     "name": "Jose Antonio",
@@ -52,11 +52,12 @@ Content-Type: application/json
 
 {
   "userId": 1,
-  "username": "JosAnt",
-  "passphrase": "JosAnt!",
-  "code": "951009",
+  "username": "JosepAntonie",
+  "passphrase": "951009",
+  "code": null,
   "active": true,
   "person": {
+    "personId": 1,
     "name": "Jose Antonio",
     "lastName": "Gonzalez",
     "lastNameMother": "Mendoza",
