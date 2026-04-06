@@ -4,10 +4,10 @@ services:
     container_name: mysql-container
     restart: no
     environment:
-      - MYSQL_DATABASE=0J2A0
-      - MYSQL_USER=JA
-      - MYSQL_PASSWORD=0J2A0
-      - MYSQL_ROOT_PASSWORD=0J2A0
+      - MYSQL_DATABASE=MYSQL
+      - MYSQL_USER=SA
+      - MYSQL_PASSWORD=InsomniaRemix524!
+      - MYSQL_ROOT_PASSWORD=InsomniaRemix524!
     ports:
       - "3306:3306"
     volumes:
@@ -18,7 +18,7 @@ services:
     restart: no
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=0J2A0_PASS
+      - SA_PASSWORD=InsomniaRemix524!
     ports:
       - "1433:1433"
     volumes:
