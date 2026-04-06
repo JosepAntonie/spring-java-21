@@ -1,0 +1,77 @@
+@env = local
+@host = {{host}}
+
+### Find All
+GET {{host}}/api/user
+
+### Find All By Filter
+POST {{host}}/api/user/filter
+Content-Type: application/json
+
+{
+  "pageNumber": 0,
+  "pageSize": 10,
+  "search": "JosAnt",
+  "payload": {
+    "active": true
+  }
+}
+
+### Find By Id
+GET {{host}}/api/user/1
+
+### Save
+POST {{host}}/api/user
+Content-Type: application/json
+
+{
+  "username": "JosAnt",
+  "passphrase": "JosAnt!",
+  "code": "951009",
+  "active": true,
+  "person": {
+    "name": "Jose Antonio",
+    "lastName": "Gonzalez",
+    "lastNameMother": "Mendoza",
+    "mail": "insomniantonio@icloud.com",
+    "telephone": "5537552486",
+    "birthday": "1995-10-09"
+  },
+  "roles": [
+    {
+      "catalogId": 1,
+      "code": "God",
+      "description": "User God"
+    }
+  ]
+}
+
+### Update
+PUT {{host}}/api/user
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "username": "JosAnt",
+  "passphrase": "JosAnt!",
+  "code": "951009",
+  "active": true,
+  "person": {
+    "name": "Jose Antonio",
+    "lastName": "Gonzalez",
+    "lastNameMother": "Mendoza",
+    "mail": "insomniantonio@icloud.com",
+    "telephone": "5537552486",
+    "birthday": "1995-10-09"
+  },
+  "roles": [
+    {
+      "catalogId": 1,
+      "code": "God",
+      "description": "User God"
+    }
+  ]
+}
+
+### Delete By Id
+DELETE {{host}}/api/user/1
