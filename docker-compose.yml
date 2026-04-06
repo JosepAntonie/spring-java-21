@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql
+    container_name: mysql-container
+    restart: no
+    environment:
+      - MYSQL_DATABASE=0J2A0
+      - MYSQL_USER=JA
+      - MYSQL_PASSWORD=0J2A0
+      - MYSQL_ROOT_PASSWORD=0J2A0
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+  mssql:
+    image: mcr.microsoft.com/mssql/server
+    container_name: mssql-container
+    restart: no
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=0J2A0_PASS
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/lib/mssql
+volumes:
+  mysql_data:
+  mssql_data:
