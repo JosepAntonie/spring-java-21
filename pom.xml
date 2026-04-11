@@ -82,6 +82,7 @@
     </dependencies>
 
     <build>
+        <finalName>${jar.name}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -124,7 +125,7 @@
             </activation>
             <properties>
                 <activatedProperties>dev</activatedProperties>
-                <jarname>ProjectDev</jarname>
+                <jar.name>api-dev</jar.name>
             </properties>
         </profile>
     </profiles>
