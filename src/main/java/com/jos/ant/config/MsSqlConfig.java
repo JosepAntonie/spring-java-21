@@ -51,14 +51,14 @@ public class MsSqlConfig
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean mssqlEntityManager(@Qualifier( "mssqlDataSource" ) DataSource mssqlDataSource, @Qualifier( "mssqlEntityManagerFactoryBuilder" ) EntityManagerFactoryBuilder builder )
+    public LocalContainerEntityManagerFactoryBean mssqlEntityManager( @Qualifier( "mssqlDataSource" ) DataSource mssqlDataSource, @Qualifier( "mssqlEntityManagerFactoryBuilder" ) EntityManagerFactoryBuilder builder )
     {
         log.info( "MsSqlConfig -> mssqlEntityManager" );
         return builder.dataSource( mssqlDataSource ).packages( "com.jos.ant.repository.mssql" ).build();
     }
 
     @Bean
-    public DataSource mssqlDataSource(@Qualifier( "mssqlDataSourceProperties" ) DataSourceProperties mssqlDataSourceProperties )
+    public DataSource mssqlDataSource( @Qualifier( "mssqlDataSourceProperties" ) DataSourceProperties mssqlDataSourceProperties )
     {
         log.info( "MsSqlConfig -> mssqlDataSource" );
         return mssqlDataSourceProperties.initializeDataSourceBuilder().build();
