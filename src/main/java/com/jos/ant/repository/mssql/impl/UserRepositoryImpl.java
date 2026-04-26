@@ -35,8 +35,7 @@ public class UserRepositoryImpl implements UserRepository
     public Page<UserPayload> findAllByFilter( FilterPayload<UserPayload> filter )
     {
         log.info( "Repository -> FindAllByFilter" );
-        Sort sort = Sort.by( Sort.Order.asc( "userId" ) );
-        PageRequest pageRequest = PageRequest.of( filter.getPageNumber(), filter.getPageSize(), sort );
+        PageRequest pageRequest = PageRequest.of( filter.getPageNumber(), filter.getPageSize(), Sort.by( Sort.Order.asc( "userId" ) ) );
         Page<UserEntity> usuarioPage = userJpa.findAll( UserPredicate.findAllByFilter( filter.getPayload(), filter.getSearch() ), pageRequest );
         return new PageImpl<>( userMapper.toUserPayloadList( usuarioPage.getContent() ), pageRequest, usuarioPage.getTotalElements() );
     }

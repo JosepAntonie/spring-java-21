@@ -1,6 +1,7 @@
 services:
   backend:
     container_name: spring-java-21-container
+    restart: always
     build: .
     ports:
       - "8080:8080"
