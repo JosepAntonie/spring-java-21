@@ -7,14 +7,15 @@ import com.jos.ant.web.rest.impl.UserRestImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 
 import java.util.Collections;
 import java.util.Optional;
 
-@SpringBootTest( classes = UserRest.class )
+@ExtendWith( MockitoExtension.class )
 class UserRestTest
 {
     private UserRest rest;

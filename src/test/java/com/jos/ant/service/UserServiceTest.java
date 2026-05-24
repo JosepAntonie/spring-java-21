@@ -8,14 +8,15 @@ import com.jos.ant.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 
 import java.util.Collections;
 import java.util.Optional;
 
-@SpringBootTest( classes = UserService.class )
+@ExtendWith( MockitoExtension.class )
 class UserServiceTest
 {
     private UserService service;
