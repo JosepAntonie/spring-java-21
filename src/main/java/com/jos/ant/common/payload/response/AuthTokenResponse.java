@@ -1,26 +1,18 @@
 package com.jos.ant.common.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
 
-@Data
-public class AuthTokenResponse
-{
-    @JsonProperty( "id_token" )
-    private String tokenId;
-
-    @JsonProperty( "access_token" )
-    private String accessToken;
-
-    @JsonProperty( "refresh_token" )
-    private String refreshToken;
-
-    @JsonProperty( "token_type" )
-    private String tokenType;
-
-    @JsonProperty( "scope" )
-    private String scope;
-
-    @JsonProperty( "expires_in" )
-    private int expiresIn;
-}
+@JsonIgnoreProperties( ignoreUnknown = true )
+public record AuthTokenResponse(
+        @JsonProperty( "id_token" ) String tokenId,
+        @JsonProperty( "access_token" ) String accessToken,
+        @JsonProperty( "refresh_token" ) String refreshToken,
+        @JsonProperty( "session_state" ) String sessionState,
+        @JsonProperty( "token_type" ) String tokenType,
+        String scope,
+        @JsonProperty( "expires_in" ) Integer expiresIn,
+        @JsonProperty( "refresh_expires_in" ) Integer refreshExpiresIn,
+        @JsonProperty( "not-before_policy" ) Integer notBeforePolicy
+)
+{}

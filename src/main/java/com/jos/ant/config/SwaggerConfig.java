@@ -29,31 +29,31 @@ public class SwaggerConfig
 
     private SecurityRequirement getSecurityRequirement()
     {
-        return new SecurityRequirement().addList( swaggerProperties.getSecuritySchemeName() );
+        return new SecurityRequirement().addList( swaggerProperties.securitySchemeName() );
     }
 
     private Components getComponents()
     {
-        return new Components().addSecuritySchemes( swaggerProperties.getSecuritySchemeName(), getSecurityScheme() );
+        return new Components().addSecuritySchemes( swaggerProperties.securitySchemeName(), getSecurityScheme() );
     }
 
     private SecurityScheme getSecurityScheme()
     {
-        return new SecurityScheme().name( swaggerProperties.getSecuritySchemeName() ).type( SecurityScheme.Type.APIKEY ).in( SecurityScheme.In.HEADER );
+        return new SecurityScheme().name( swaggerProperties.securitySchemeName() ).type( SecurityScheme.Type.APIKEY ).in( SecurityScheme.In.COOKIE );
     }
 
     private Info getInfo()
     {
-        return new Info().title( swaggerProperties.getTitle() ).description( swaggerProperties.getDescription() ).version( swaggerProperties.getVersion() ).license( getLicense() ).contact( getContact() );
+        return new Info().title( swaggerProperties.title() ).description( swaggerProperties.description() ).version( swaggerProperties.version() ).license( getLicense() ).contact( getContact() );
     }
 
     private License getLicense()
     {
-        return new License().name( swaggerProperties.getLicense().getName() ).url( swaggerProperties.getLicense().getUrl() );
+        return new License().name( swaggerProperties.license().name() ).url( swaggerProperties.license().url() );
     }
 
     private Contact getContact()
     {
-        return new Contact().name( swaggerProperties.getContact().getName() ).url( swaggerProperties.getContact().getUrl() ).email( swaggerProperties.getContact().getEmail() );
+        return new Contact().name( swaggerProperties.contact().name() ).url( swaggerProperties.contact().url() ).email( swaggerProperties.contact().email() );
     }
 }

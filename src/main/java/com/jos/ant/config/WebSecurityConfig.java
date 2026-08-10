@@ -21,8 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +33,7 @@ public class WebSecurityConfig
     @Bean
     public SecurityFilterChain securityFilterChain( HttpSecurity httpSecurity )
     {
-        httpSecurity.csrf( AbstractHttpConfigurer:: disable )
+        httpSecurity.csrf( AbstractHttpConfigurer::disable )
                 .cors( cors -> cors.configurationSource( corsConfigurationSource() ) )
                 .addFilterBefore( jwtFilter, UsernamePasswordAuthenticationFilter.class )
                 .exceptionHandling( exceptionHandling -> exceptionHandling
@@ -61,9 +60,9 @@ public class WebSecurityConfig
     public CorsConfigurationSource corsConfigurationSource()
     {
         CorsConfiguration  corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins( Collections.singletonList( "http://localhost:3001" ) );
-        corsConfiguration.setAllowedMethods( Arrays.asList( HttpMethod.GET.toString(), HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.DELETE.toString(), HttpMethod.OPTIONS.toString() ) );
-        corsConfiguration.setAllowedHeaders( Arrays.asList( "X-CSRF-TOKEN", HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE ) );
+        corsConfiguration.setAllowedOrigins( List.of( "http://localhost:3001", "http://localhost:8080" ) );
+        corsConfiguration.setAllowedMethods( List.of( HttpMethod.GET.toString(), HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.DELETE.toString(), HttpMethod.OPTIONS.toString() ) );
+        corsConfiguration.setAllowedHeaders( List.of( "X-CSRF-TOKEN", HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE ) );
         corsConfiguration.setAllowCredentials( Boolean.TRUE );
 
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
