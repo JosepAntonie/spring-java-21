@@ -1,7 +1,8 @@
 package com.jos.ant.web.rest.impl;
 
-import com.jos.ant.common.payload.FilterPayload;
-import com.jos.ant.common.payload.UserPayload;
+import com.jos.ant.common.payload.request.FilterRequest;
+import com.jos.ant.common.payload.request.UserRequest;
+import com.jos.ant.common.payload.response.UserResponse;
 import com.jos.ant.common.validation.groups.OnSave;
 import com.jos.ant.common.validation.groups.OnUpdate;
 import com.jos.ant.service.UserService;
@@ -34,7 +35,7 @@ public class UserRestImpl implements UserRest
     @GetMapping
     @Operation( summary = "1. FindAll" )
     @ApiResponses( value = { @ApiResponse( responseCode = "200", description = "OK" ), @ApiResponse( responseCode = "400", description = "Bad Request" ) } )
-    public ResponseEntity<List<UserPayload>> findAll()
+    public ResponseEntity<List<UserResponse>> findAll()
     {
         log.info( "UserRest -> findAll" );
         return ResponseEntity.status( HttpStatus.OK ).body( userService.findAll() );
@@ -43,16 +44,16 @@ public class UserRestImpl implements UserRest
     @PostMapping( "/filter" )
     @Operation( summary = "2. FindAllByFilter" )
     @ApiResponses( value = { @ApiResponse( responseCode = "200", description = "OK" ), @ApiResponse( responseCode = "400", description = "Bad Request" ) } )
-    public ResponseEntity<Page<UserPayload>> findAllByFilter( @Valid @RequestBody FilterPayload<UserPayload> filter )
+    public ResponseEntity<Page<UserResponse>> findAllByFilter( @Valid @RequestBody FilterRequest<UserRequest> filterRequest )
     {
         log.info( "UserRest -> findAllByFilter" );
-        return ResponseEntity.status( HttpStatus.OK ).body( userService.findAllByFilter( filter ) );
+        return ResponseEntity.status( HttpStatus.OK ).body( userService.findAllByFilter( filterRequest ) );
     }
 
     @GetMapping( "/{userId}" )
     @Operation( summary = "3. FindById" )
     @ApiResponses( value = { @ApiResponse( responseCode = "200", description = "OK" ), @ApiResponse( responseCode = "400", description = "Bad Request" ) } )
-    public ResponseEntity<Optional<UserPayload>> findById( @PathVariable Long userId )
+    public ResponseEntity<Optional<UserResponse>> findById( @PathVariable Long userId )
     {
         log.info( "UserRest -> findById -> {}", userId );
         return ResponseEntity.status( HttpStatus.OK ).body( userService.findById( userId ) );
@@ -61,19 +62,19 @@ public class UserRestImpl implements UserRest
     @PostMapping
     @Operation( summary = "4. Save" )
     @ApiResponses( value = { @ApiResponse( responseCode = "200", description = "OK" ), @ApiResponse( responseCode = "400", description = "Bad Request" ) } )
-    public ResponseEntity<UserPayload> save( @Validated( OnSave.class ) @RequestBody UserPayload userPayload )
+    public ResponseEntity<UserResponse> save( @Validated( OnSave.class ) @RequestBody UserRequest userRequest )
     {
         log.info( "UserRest -> save" );
-        return ResponseEntity.status( HttpStatus.OK ).body( userService.save( userPayload ) );
+        return ResponseEntity.status( HttpStatus.OK ).body( userService.save( userRequest ) );
     }
 
     @PutMapping
     @Operation( summary = "5. Update" )
     @ApiResponses( value = { @ApiResponse( responseCode = "200", description = "OK" ), @ApiResponse( responseCode = "400", description = "Bad Request" ) } )
-    public ResponseEntity<UserPayload> update( @Validated( OnUpdate.class ) @RequestBody UserPayload userPayload )
+    public ResponseEntity<UserResponse> update(@Validated( OnUpdate.class ) @RequestBody UserRequest userRequest )
     {
         log.info( "UserRest -> update" );
-        return ResponseEntity.status( HttpStatus.OK ).body( userService.update( userPayload ) );
+        return ResponseEntity.status( HttpStatus.OK ).body( userService.update( userRequest ) );
     }
 
     @DeleteMapping( "/{userId}" )

@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Setter
 @Getter
@@ -25,7 +25,7 @@ public abstract class AuditingEntity<U>
 
     @CreatedDate
     @Column( name = "DD_CREATE_DATE", columnDefinition = "datetime" )
-    private Date createdDate;
+    private Instant createdDate;
 
     @LastModifiedBy
     @Column( name = "DX_LAST_MODIFIED_BY" )
@@ -33,5 +33,5 @@ public abstract class AuditingEntity<U>
 
     @LastModifiedDate
     @Column( name = "DD_LAST_MODIFIED_DATE", columnDefinition = "datetime" )
-    private Date lastModifiedDate;
+    private Instant lastModifiedDate;
 }

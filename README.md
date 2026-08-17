@@ -41,3 +41,7 @@ Spring Java 21
     docker network ls;
     docker network rm <network_name>;
     ```
+10. ReBuild 
+    ``` bash
+    docker compose up -d --build backend;
+    ```

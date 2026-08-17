@@ -29,7 +29,7 @@ public class UserEntity extends AuditingEntity<String>
     @Column( name = "DN_ACTIVE", nullable = false )
     private Boolean active;
 
-    @OneToOne( fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH } )
+    @OneToOne( fetch = FetchType.EAGER, cascade = { CascadeType.ALL } )
     @JoinColumn( name = "KN_PERSON_ID", referencedColumnName = "SK_PERSON_ID", nullable = false )
     private PersonEntity person;
 
