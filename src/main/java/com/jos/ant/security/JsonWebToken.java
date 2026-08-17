@@ -23,7 +23,7 @@ public class JsonWebToken
         {
             claims = Jwts.parser().verifyWith( authService.getPublicKey( getKeyId( token ) ) ).build().parseSignedClaims( token ).getPayload();
         }
-        catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e )
+        catch ( ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e )
         {
             log.error( "JWT Token could not be deserialized: " );
             if ( e instanceof ExpiredJwtException ) log.error( "JWT token is expired: ", e );

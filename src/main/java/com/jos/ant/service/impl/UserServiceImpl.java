@@ -1,8 +1,9 @@
 package com.jos.ant.service.impl;
 
 import com.jos.ant.common.exception.ResponseException;
-import com.jos.ant.common.payload.FilterPayload;
-import com.jos.ant.common.payload.UserPayload;
+import com.jos.ant.common.payload.request.FilterRequest;
+import com.jos.ant.common.payload.request.UserRequest;
+import com.jos.ant.common.payload.response.UserResponse;
 import com.jos.ant.repository.mssql.UserRepository;
 import com.jos.ant.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,36 +24,36 @@ public class UserServiceImpl implements UserService
 {
     private final UserRepository userRepository;
 
-    public List<UserPayload> findAll()
+    public List<UserResponse> findAll()
     {
         log.info( "UserService -> findAll" );
         return userRepository.findAll();
     }
 
-    public Page<UserPayload> findAllByFilter( FilterPayload<UserPayload> filter )
+    public Page<UserResponse> findAllByFilter( FilterRequest<UserRequest> filterRequest )
     {
         log.info( "UserService -> findAllByFilter" );
-        return userRepository.findAllByFilter( filter );
+        return userRepository.findAllByFilter( filterRequest );
     }
 
-    public Optional<UserPayload> findById( Long userId )
+    public Optional<UserResponse> findById( Long userId )
     {
         log.info( "UserService -> findById" );
         return userRepository.findById( userId );
     }
 
     @Transactional
-    public UserPayload save( UserPayload userPayload )
+    public UserResponse save( UserRequest userRequest )
     {
         log.info( "UserService -> save" );
-        return userRepository.save( userPayload );
+        return userRepository.save( userRequest );
     }
 
     @Transactional
-    public UserPayload update( UserPayload userPayload )
+    public UserResponse update( UserRequest userRequest )
     {
         log.info( "UserService -> update" );
-        return findById( userPayload.getUserId() ).map( u -> userRepository.save( userPayload ) ).orElseThrow( () -> new ResponseException( HttpStatus.BAD_REQUEST, "", "", null ) );
+        return findById( userRequest.userId() ).map( u -> userRepository.save( userRequest ) ).orElseThrow( () -> new ResponseException( HttpStatus.BAD_REQUEST, "", "", null ) );
     }
 
     @Transactional

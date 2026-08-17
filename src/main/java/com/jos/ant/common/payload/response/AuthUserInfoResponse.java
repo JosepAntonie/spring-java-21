@@ -1,9 +1,7 @@
 package com.jos.ant.common.payload.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties( ignoreUnknown = true )
 public record AuthUserInfoResponse(
         String sub,
         @JsonProperty( "email_verified" ) Boolean emailVerified,

@@ -1,9 +1,8 @@
 package com.jos.ant.common.payload.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties( ignoreUnknown = true )
+
 public record AuthTokenResponse(
         @JsonProperty( "id_token" ) String tokenId,
         @JsonProperty( "access_token" ) String accessToken,

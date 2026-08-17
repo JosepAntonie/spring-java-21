@@ -1,6 +1,6 @@
 package com.jos.ant.repository.mssql.predicate;
 
-import com.jos.ant.common.payload.UserPayload;
+import com.jos.ant.common.payload.request.UserRequest;
 import com.jos.ant.repository.mssql.entity.QUserEntity;
 import com.querydsl.core.BooleanBuilder;
 import lombok.extern.log4j.Log4j2;
@@ -12,18 +12,18 @@ public class UserPredicate
     {
     }
 
-    public static BooleanBuilder findAllByFilter( UserPayload user, String search )
+    public static BooleanBuilder findAllByFilter( UserRequest user, String search )
     {
         log.info( "Predicate -> findAllByFilter" );
         BooleanBuilder builder = new BooleanBuilder();
         QUserEntity userEntity = QUserEntity.userEntity;
-        if ( isNotNullOrEmpty( user.getUsername() ) )
+        if ( isNotNullOrEmpty( user.username() ) )
         {
-            builder.and( userEntity.username.eq( user.getUsername() ) );
+            builder.and( userEntity.username.eq( user.username() ) );
         }
-        if ( user.getActive() != null )
+        if ( user.active() != null )
         {
-            builder.and( userEntity.active.eq( user.getActive() ) );
+            builder.and( userEntity.active.eq( user.active() ) );
         }
         if ( isNotNullOrEmpty( search ) )
         {

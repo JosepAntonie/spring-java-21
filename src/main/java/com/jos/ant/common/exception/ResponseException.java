@@ -24,30 +24,29 @@ public class ResponseException extends ApplicationException
         super( message );
         this.response = response;
     }
-    public ResponseException( String message, HandleExceptionResponse response, Throwable cause )
+    public ResponseException( Throwable cause, HandleExceptionResponse response )
+    {
+        super( cause );
+        this.response = response;
+    }
+    public ResponseException( String message, Throwable cause, HandleExceptionResponse response )
     {
         super( message, cause );
         this.response = response;
-    }
-    public ResponseException( HttpStatus httpStatus, String code, String message, String description, Throwable cause )
-    {
-        super( message, cause );
-        this.response = createResponse( httpStatus, code, message, description );
     }
     public ResponseException( HttpStatus httpStatus, String code, String message, String description )
     {
         super( message );
         this.response = createResponse( httpStatus, code, message, description );
     }
-
-    private HandleExceptionResponse createResponse( HttpStatus status, String code, String reason, String details )
+    public ResponseException( HttpStatus httpStatus, String code, String message, String description, Throwable cause )
     {
-        HandleExceptionResponse newResponse = new HandleExceptionResponse();
-        newResponse.setStatus( status.value() );
-        newResponse.setError( status.name() );
-        newResponse.setCode( code );
-        newResponse.setReason( reason );
-        newResponse.setDetails( details );
-        return newResponse;
+        super( message, cause );
+        this.response = createResponse( httpStatus, code, message, description );
+    }
+
+    private static HandleExceptionResponse createResponse( HttpStatus status, String code, String reason, String details )
+    {
+        return new HandleExceptionResponse( status.value(), status.name(), code, reason, details );
     }
 }

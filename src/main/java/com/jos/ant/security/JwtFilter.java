@@ -52,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter
     private UsernamePasswordAuthenticationToken getAuthentication( Claims claims, HttpServletRequest httpServletRequest )
     {
         List<? extends GrantedAuthority> authorities = ( claims.get( "authorities" ) != null ) ? ( (List<?> ) claims.get( "authorities" ) ).stream().map(authority -> new SimpleGrantedAuthority( ( String ) authority ) ).toList(): new ArrayList<>();
-        return new UsernamePasswordAuthenticationToken( new User( claims.getSubject(), null, authorities ), jwtExtract( httpServletRequest ), authorities );
+        return new UsernamePasswordAuthenticationToken( new User( claims.get( "preferred_username", String.class ), null, authorities ), jwtExtract( httpServletRequest ), authorities );
     }
 
     private String jwtExtract( HttpServletRequest httpServletRequest )

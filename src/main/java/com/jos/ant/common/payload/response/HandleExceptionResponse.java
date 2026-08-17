@@ -1,13 +1,15 @@
 package com.jos.ant.common.payload.response;
 
-import lombok.Data;
 
-@Data
-public class HandleExceptionResponse
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties( ignoreUnknown = true )
+public record HandleExceptionResponse (
+        Integer status,
+        String error,
+        String code,
+        String reason,
+        String details
+)
 {
-    private Integer status;
-    private String error;
-    private String code;
-    private String reason;
-    private String details;
 }

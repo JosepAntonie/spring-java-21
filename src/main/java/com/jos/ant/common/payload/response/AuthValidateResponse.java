@@ -1,12 +1,10 @@
 package com.jos.ant.common.payload.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 import java.util.Map;
 
-@JsonIgnoreProperties( ignoreUnknown = true )
 public record AuthValidateResponse(
         Long exp,
         Long iat,
@@ -35,9 +33,6 @@ public record AuthValidateResponse(
         Boolean active
 )
 {
-
-    @JsonIgnoreProperties( ignoreUnknown = true )
     public record RealmAccess( List<String> roles ){}
-    @JsonIgnoreProperties( ignoreUnknown = true )
     public record ResourceAccess( List<String> roles ){}
 }

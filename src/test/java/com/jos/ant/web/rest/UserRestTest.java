@@ -1,19 +1,21 @@
 package com.jos.ant.web.rest;
 
-import com.jos.ant.common.payload.FilterPayload;
-import com.jos.ant.common.payload.UserPayload;
+import com.jos.ant.common.payload.request.FilterRequest;
+import com.jos.ant.common.payload.request.UserRequest;
+import com.jos.ant.common.payload.response.UserResponse;
 import com.jos.ant.service.UserService;
 import com.jos.ant.web.rest.impl.UserRestImpl;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 
 import java.util.Collections;
 import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith( MockitoExtension.class )
 class UserRestTest
@@ -24,49 +26,49 @@ class UserRestTest
     @BeforeEach
     void setUp()
     {
-        service = Mockito.mock( UserService.class );
+        service = mock( UserService.class );
         rest = new UserRestImpl( service );
     }
 
     @Test
     void findAll()
     {
-        Mockito.when( service.findAll() ).thenReturn( Collections.emptyList() );
-        Assertions.assertNotNull( rest.findAll() );
+        when( service.findAll() ).thenReturn( Collections.emptyList() );
+        assertNotNull( rest.findAll() );
     }
 
     @Test
     void findAllByFilter()
     {
-        Mockito.when( service.findAllByFilter( Mockito.any() ) ).thenReturn( new PageImpl<>( Collections.emptyList() ) );
-        Assertions.assertNotNull( rest.findAllByFilter( new FilterPayload<>() ) );
+        when( service.findAllByFilter( any() ) ).thenReturn( new PageImpl<>( Collections.emptyList() ) );
+        assertNotNull( rest.findAllByFilter( new FilterRequest<>( 0, 10, null, mock( UserRequest.class ) ) ) );
     }
 
     @Test
     void findById()
     {
-        Mockito.when( service.findById( Mockito.anyLong() ) ).thenReturn( Optional.of( new UserPayload() ) );
-        Assertions.assertNotNull( rest.findById( 1L ) );
+        when( service.findById( anyLong() ) ).thenReturn( Optional.of( mock( UserResponse.class ) ) );
+        assertNotNull( rest.findById( 1L ) );
     }
 
     @Test
     void save()
     {
-        Mockito.when( service.save( Mockito.any() ) ).thenReturn( new UserPayload() );
-        Assertions.assertNotNull( rest.save( new UserPayload() ) );
+        when( service.save( any() ) ).thenReturn( mock( UserResponse.class ) );
+        assertNotNull( rest.save( mock( UserRequest.class ) ) );
     }
 
     @Test
     void update()
     {
-        Mockito.when( service.update( Mockito.any() ) ).thenReturn( new UserPayload() );
-        Assertions.assertNotNull( rest.update( new UserPayload() ) );
+        when( service.update( any() ) ).thenReturn( mock( UserResponse.class ) );
+        assertNotNull( rest.update( mock( UserRequest.class ) ) );
     }
 
     @Test
     void deleteById()
     {
-        Mockito.when( service.deleteById( Mockito.anyLong() ) ).thenReturn( true );
-        Assertions.assertNotNull( rest.deleteById( 1L ) );
+        when( service.deleteById( anyLong() ) ).thenReturn( true );
+        assertNotNull( rest.deleteById( 1L ) );
     }
 }

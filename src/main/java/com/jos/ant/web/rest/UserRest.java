@@ -1,7 +1,8 @@
 package com.jos.ant.web.rest;
 
-import com.jos.ant.common.payload.FilterPayload;
-import com.jos.ant.common.payload.UserPayload;
+import com.jos.ant.common.payload.request.FilterRequest;
+import com.jos.ant.common.payload.request.UserRequest;
+import com.jos.ant.common.payload.response.UserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
@@ -10,15 +11,15 @@ import java.util.Optional;
 
 public interface UserRest
 {
-    ResponseEntity<List<UserPayload>> findAll();
+    ResponseEntity<List<UserResponse>> findAll();
 
-    ResponseEntity<Page<UserPayload>> findAllByFilter( FilterPayload<UserPayload> user );
+    ResponseEntity<Page<UserResponse>> findAllByFilter( FilterRequest<UserRequest> filterRequest );
 
-    ResponseEntity<Optional<UserPayload>> findById( Long userId );
+    ResponseEntity<Optional<UserResponse>> findById( Long userId );
 
-    ResponseEntity<UserPayload> save( UserPayload user );
+    ResponseEntity<UserResponse> save( UserRequest userRequest );
 
-    ResponseEntity<UserPayload> update( UserPayload user );
+    ResponseEntity<UserResponse> update( UserRequest userRequest );
 
     ResponseEntity<Boolean> deleteById( Long userId );
 }
