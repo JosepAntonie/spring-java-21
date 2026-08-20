@@ -36,6 +36,8 @@ class AuthServiceTest
     private MockedStatic<AuthUtil> authUtilMockedStatic;
     private MockedStatic<AuthStorage> authStorageMockedStatic;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @BeforeEach
     void setUp() throws IOException
     {
@@ -101,7 +103,7 @@ class AuthServiceTest
         when( authProperties.clientSecret() ).thenReturn( "client-secret" );
         when( authProperties.callbackRedirectUri() ).thenReturn( "http://localhost:8080/callback" );
 
-        mockWebServer.enqueue( new MockResponse().setResponseCode( 200 ).setHeader( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE ).setBody( new ObjectMapper().writeValueAsString( mock ( AuthTokenResponse.class ) ) ) );
+        mockWebServer.enqueue( new MockResponse().setResponseCode( 200 ).setHeader( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE ).setBody( objectMapper.writeValueAsString( mock ( AuthTokenResponse.class ) ) ) );
         authUtilMockedStatic.when( () -> AuthUtil.tokenRequest( anyString(), anyString(), anyString(), anyString() ) ).thenReturn( new LinkedMultiValueMap<>() );
         AuthTokenResponse actualResponse = authService.getToken( "auth-code-001" );
 
@@ -137,7 +139,7 @@ class AuthServiceTest
         when( authProperties.clientId() ).thenReturn( "client-id" );
         when( authProperties.clientSecret() ).thenReturn( "client-secret" );
 
-        mockWebServer.enqueue( new MockResponse().setResponseCode( 200 ).setHeader( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE ).setBody( new ObjectMapper().writeValueAsString( mock( AuthValidateResponse.class ) ) ) );
+        mockWebServer.enqueue( new MockResponse().setResponseCode( 200 ).setHeader( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE ).setBody( objectMapper.writeValueAsString( mock( AuthValidateResponse.class ) ) ) );
         authUtilMockedStatic.when( () -> AuthUtil.validateRequest( anyString() ) ).thenReturn( new LinkedMultiValueMap<>() );
         AuthValidateResponse actualResponse = authService.getValidate( "access-token" );
 
@@ -172,7 +174,7 @@ class AuthServiceTest
     void getUserInfo() throws Exception
     {
         when( authProperties.userInfoApi() ).thenReturn( "/user-info" );
-        mockWebServer.enqueue( new MockResponse().setResponseCode( 200 ).setHeader( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE ).setBody( new ObjectMapper().writeValueAsString( mock( AuthUserInfoResponse.class ) ) ) );
+        mockWebServer.enqueue( new MockResponse().setResponseCode( 200 ).setHeader( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE ).setBody( objectMapper.writeValueAsString( mock( AuthUserInfoResponse.class ) ) ) );
         AuthUserInfoResponse actualResponse = authService.getUserInfo( "access-token" );
         assertNotNull( actualResponse );
 

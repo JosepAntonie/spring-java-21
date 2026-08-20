@@ -18,14 +18,16 @@ import java.util.stream.Collectors;
 @Log4j2
 public class AuthUtil
 {
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    private static final String CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
     private AuthUtil()
     {
     }
 
     private static String generateRandomString()
     {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        return new SecureRandom().ints( 128, 0, chars.length() ).mapToObj( chars::charAt ).map( Object::toString ).collect( Collectors.joining() );
+        return SECURE_RANDOM.ints( 128, 0, CHARS.length() ).mapToObj( CHARS::charAt ).map( Object::toString ).collect( Collectors.joining() );
     }
 
     private static String base64URLEncode( byte[] value )
