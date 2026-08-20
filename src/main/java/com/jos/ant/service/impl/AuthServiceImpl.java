@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService
     private final WebClient webClient;
 
     @Autowired
-    public AuthServiceImpl( WebClient.Builder webClientBuilder, AuthProperties authProperties )
+    public AuthServiceImpl( AuthProperties authProperties, WebClient.Builder webClientBuilder )
     {
         this.authProperties = authProperties;
         this.webClient = webClientBuilder.baseUrl( authProperties.baseUrl() ).build();
@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService
     {
         log.info( "Service -> getUserInfo" );
         return webClient.get().uri( authProperties.userInfoApi() )
-                .headers( header -> header.setBearerAuth( accessToken) )
+                .headers( header -> header.setBearerAuth( accessToken ) )
                 .header( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE )
                 .retrieve().onStatus(
                         status -> status.is4xxClientError() || status.is5xxServerError(),
