@@ -41,7 +41,7 @@ class JsonWebTokenTest
     void getClaims_tokenValid()
     {
         String token = Jwts.builder().header().keyId( KEY_ID ).and().subject( "user" ).claim( "email", "user@domain.com" ).issuedAt( new Date() ).expiration( new Date( System.currentTimeMillis() + 60000 ) ).signWith( privateKey ).compact();
-        when( authService.getPublicKey( eq( KEY_ID ) ) ).thenReturn( publicKey );
+        when( authService.getPublicKey( KEY_ID ) ).thenReturn( publicKey );
 
         Claims claims = jsonWebToken.getClaims( token );
 
@@ -55,7 +55,7 @@ class JsonWebTokenTest
     void getClaims_tokenIsExpired()
     {
         String expiredToken = Jwts.builder().header().keyId( KEY_ID ).and().subject( "user" ).issuedAt( new Date( System.currentTimeMillis() - 100000 ) ).expiration( new Date( System.currentTimeMillis() - 50000 ) ).signWith( privateKey ).compact();
-        when( authService.getPublicKey( eq( KEY_ID ) ) ).thenReturn( publicKey );
+        when( authService.getPublicKey( KEY_ID ) ).thenReturn( publicKey );
         assertNull( jsonWebToken.getClaims( expiredToken ) );
         verify( authService, times( 1 ) ).getPublicKey( KEY_ID );
     }
@@ -69,7 +69,7 @@ class JsonWebTokenTest
 
         String tokenSignedWithWrongKey = Jwts.builder().header().keyId( KEY_ID ).and().subject( "user" ).issuedAt( new Date() ).expiration( new Date( System.currentTimeMillis() + 60000 ) ).signWith( wrongKeyPair.getPrivate() ).compact();
 
-        when( authService.getPublicKey( eq( KEY_ID ) ) ).thenReturn( publicKey );
+        when( authService.getPublicKey( KEY_ID ) ).thenReturn( publicKey );
         assertNull( jsonWebToken.getClaims( tokenSignedWithWrongKey ) );
         verify( authService, times( 1 ) ).getPublicKey( KEY_ID );
     }
