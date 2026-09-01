@@ -1,0 +1,7 @@
+target/
+.git/
+.gitignore
+Dockerfile
+.idea/
+vscode/
+jos-ant.iml
