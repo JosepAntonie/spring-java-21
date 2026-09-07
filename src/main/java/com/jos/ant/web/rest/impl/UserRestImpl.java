@@ -25,8 +25,8 @@ import java.util.Optional;
 
 @Log4j2
 @RestController
-@RequestMapping( "/api/user" )
 @RequiredArgsConstructor
+@RequestMapping( "/api/user" )
 @Tag( name = "User", description = "User Restful Api" )
 public class UserRestImpl implements UserRest
 {
@@ -71,7 +71,7 @@ public class UserRestImpl implements UserRest
     @PutMapping
     @Operation( summary = "5. Update" )
     @ApiResponses( value = { @ApiResponse( responseCode = "200", description = "OK" ), @ApiResponse( responseCode = "400", description = "Bad Request" ) } )
-    public ResponseEntity<UserResponse> update(@Validated( OnUpdate.class ) @RequestBody UserRequest userRequest )
+    public ResponseEntity<UserResponse> update( @Validated( OnUpdate.class ) @RequestBody UserRequest userRequest )
     {
         log.info( "UserRest -> update" );
         return ResponseEntity.status( HttpStatus.OK ).body( userService.update( userRequest ) );

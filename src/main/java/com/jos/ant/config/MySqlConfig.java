@@ -1,88 +1,68 @@
 package com.jos.ant.config;
 
+import com.jos.ant.common.factory.DatabaseConfigFactory;
+import com.jos.ant.common.properties.JpaProperties;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceProperties;
 import org.springframework.boot.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.util.Map;
 
 @Log4j2
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories( transactionManagerRef = "mysqlTransactionManager", entityManagerFactoryRef = "mysqlEntityManager", basePackages = { "com.jos.ant.repository.mysql.impl", "com.jos.ant.repository.mysql.jpa" } )
-public class MySqlConfig
+public class MySqlConfig extends DatabaseConfigFactory
 {
-    @Value( "${mysql.jpa.hibernate.ddl-auto}" )
-    private String jpaDdlAuto;
+    private static final String CONFIG_NAME = "MySqlConfig";
 
-    @Value( "${mysql.jpa.database-platform}" )
-    private String jpaDatabasePlatform;
-
-    @Value( "${mysql.jpa.hibernate.naming.physical-strategy}" )
-    private String jpaPhysicalStrategy;
-
-    @Value( "${mysql.jpa.generate-ddl}" )
-    private Boolean generateDdl;
-
-    @Value( "${mysql.jpa.show-sql}" )
-    private Boolean showSql;
-
-    @Primary @Bean
-    public PlatformTransactionManager mysqlTransactionManager( @Qualifier( "mysqlEntityManager" ) EntityManagerFactory mysqlEntityManagerFactory )
+    @Primary @Bean @ConfigurationProperties( "mysql.datasource" )
+    public DataSourceProperties mysqlDataSourceProperties()
     {
-        log.info( "MySqlConfig -> mysqlTransactionManager" );
-        return new JpaTransactionManager( mysqlEntityManagerFactory );
+        log.info( "{} -> dataSourceProperties", CONFIG_NAME );
+        return new DataSourceProperties();
     }
 
     @Primary @Bean
-    public LocalContainerEntityManagerFactoryBean mysqlEntityManager( @Qualifier( "mysqlDataSource" ) DataSource mysqlDataSource, @Qualifier( "mysqlEntityManagerFactoryBuilder" ) EntityManagerFactoryBuilder builder )
+    public JpaProperties mysqlJpaProperties( Environment environment )
     {
-        log.info( "MySqlConfig -> mysqlEntityManager" );
-        return builder.dataSource( mysqlDataSource ).packages( "com.jos.ant.repository.mysql" ).build();
+        log.info( "{} -> JpaProperties", CONFIG_NAME );
+        return Binder.get( environment ).bind( "mysql.jpa", JpaProperties.class ).orElseGet( () -> new JpaProperties( null, null, null, false, false ) );
     }
 
     @Primary @Bean
     public DataSource mysqlDataSource( @Qualifier( "mysqlDataSourceProperties" ) DataSourceProperties mysqlDataSourceProperties )
     {
-        log.info( "MySqlConfig -> mysqlDataSource" );
-        return mysqlDataSourceProperties.initializeDataSourceBuilder().build();
-    }
-
-    @Primary @Bean @ConfigurationProperties( "mysql.datasource" )
-    public DataSourceProperties mysqlDataSourceProperties()
-    {
-        log.info( "MySqlConfig -> mysqlDataSourceProperties" );
-        return new DataSourceProperties();
+        return dataSource( mysqlDataSourceProperties, CONFIG_NAME );
     }
 
     @Primary @Bean
-    public EntityManagerFactoryBuilder mysqlEntityManagerFactoryBuilder()
+    public EntityManagerFactoryBuilder mysqlEntityManagerFactoryBuilder( @Qualifier( "mysqlJpaProperties" )JpaProperties jpaProperties )
     {
-        log.info( "MySqlConfig -> mysqlEntityMAnagerFactoryBuilder" );
-        return new EntityManagerFactoryBuilder( getHibernateJpaVendorAdapter(), dataSource -> Map.of( "hibernate.hbm2ddl.auto", jpaDdlAuto, "hibernate.physical_naming_strategy", jpaPhysicalStrategy ), null );
+        return entityManagerFactoryBuilder( jpaProperties, CONFIG_NAME );
     }
 
-    private HibernateJpaVendorAdapter getHibernateJpaVendorAdapter()
+    @Primary @Bean
+    public LocalContainerEntityManagerFactoryBean mysqlEntityManager( @Qualifier( "mysqlEntityManagerFactoryBuilder" ) EntityManagerFactoryBuilder entityManagerFactoryBuilder, @Qualifier( "mysqlDataSource" ) DataSource mysqlDataSource )
     {
-        log.info( "MySqlConfig -> getHibernateJpaVendorAdapter" );
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setDatabasePlatform( jpaDatabasePlatform );
-        vendorAdapter.setGenerateDdl( generateDdl );
-        vendorAdapter.setShowSql( showSql );
-        return vendorAdapter;
+        return entityManager( entityManagerFactoryBuilder, mysqlDataSource, "com.jos.ant.repository.mysql", CONFIG_NAME );
+    }
+
+    @Primary @Bean
+    public PlatformTransactionManager mysqlTransactionManager( @Qualifier( "mysqlEntityManager" ) EntityManagerFactory mysqlEntityManagerFactory )
+    {
+        return platformTransactionManager( mysqlEntityManagerFactory, CONFIG_NAME );
     }
 }

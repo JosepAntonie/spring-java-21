@@ -17,14 +17,8 @@ public class UserPredicate
         log.info( "Predicate -> findAllByFilter" );
         BooleanBuilder builder = new BooleanBuilder();
         QUserEntity userEntity = QUserEntity.userEntity;
-        if ( isNotNullOrEmpty( user.username() ) )
-        {
-            builder.and( userEntity.username.eq( user.username() ) );
-        }
-        if ( user.active() != null )
-        {
-            builder.and( userEntity.active.eq( user.active() ) );
-        }
+        if ( isNotNullOrEmpty( user.username() ) ) builder.and( userEntity.username.eq( user.username() ) );
+        if ( user.active() != null ) builder.and( userEntity.active.eq( user.active() ) );
         if ( isNotNullOrEmpty( search ) )
         {
             builder.and( userEntity.username.stringValue().toLowerCase().like( "%" + search + "%" ) );
