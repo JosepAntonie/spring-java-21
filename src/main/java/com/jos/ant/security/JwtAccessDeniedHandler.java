@@ -17,7 +17,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler
 {
     public void handle( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException accessDeniedException ) throws IOException
     {
-        log.error( "JWT Access Denied -> Forbidden error: {}", accessDeniedException.getMessage() );
+        log.error( "{} -> Forbidden error: {}", getClass().getSimpleName(), accessDeniedException.getMessage() );
         httpServletResponse.setContentType( MediaType.APPLICATION_JSON_VALUE );
         httpServletResponse.setStatus( HttpServletResponse.SC_FORBIDDEN );
 

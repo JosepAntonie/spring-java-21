@@ -18,6 +18,7 @@ public class JsonWebToken
 
     public Claims getClaims( String token )
     {
+        log.info( "{} ->  getClaims", getClass().getSimpleName() );
         Claims claims = null;
         try
         {

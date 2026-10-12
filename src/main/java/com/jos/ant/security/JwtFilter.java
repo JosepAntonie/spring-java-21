@@ -31,7 +31,7 @@ public class JwtFilter extends OncePerRequestFilter
     @Override @SuppressWarnings( "NullableProblems" )
     public void doFilterInternal( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain ) throws ServletException, IOException
     {
-        log.info( "JWT Filter -> doFilterInternal" );
+        log.info( "{} -> doFilterInternal", getClass().getSimpleName() );
         String jwtToken = jwtExtract( httpServletRequest );
         if ( jwtToken != null )
         {
