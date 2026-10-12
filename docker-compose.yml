@@ -1,13 +1,13 @@
 services:
   backend:
     container_name: spring-java-21-container
-    restart: always
+    restart: no
     build:
       context: .
       dockerfile: Dockerfile
       args:
         - SONAR_HOST_URL=http://host.docker.internal:9000
-        - SONAR_TOKEN=sqa_eb8d81bf8f31f02fe9cbd4771c1cf62e82e53c6e
+        - SONAR_TOKEN=sqa_b8c6f58177636a97b085fb36f151eca23760df35
     ports:
       - "8080:8080"
     depends_on:

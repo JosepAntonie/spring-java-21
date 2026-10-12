@@ -35,19 +35,19 @@ public class AuthServiceImpl implements AuthService
 
     public PublicKey getPublicKey( String keyId )
     {
-        log.info( "Service -> getPublicKey" );
+        log.info( "{} -> getPublicKey", getClass().getSimpleName() );
         return AuthUtil.getPublicKey( keyId, webClient.get().uri( authProperties.keysApi() ).retrieve().bodyToMono( String.class ).block() );
     }
 
     public String getAuthorize()
     {
-        log.info( "Service -> getAuthorize" );
+        log.info( "{} -> getAuthorize", getClass().getSimpleName() );
         return getUri( authProperties.baseUrl(), authProperties.authorizeApi(), AuthUtil.authorizeRequest( authProperties.clientId(), authProperties.callbackRedirectUri() ) );
     }
 
     public AuthTokenResponse getToken( String code )
     {
-        log.info( "Service -> getToken" );
+        log.info( "{} -> getToken", getClass().getSimpleName() );
         return webClient.post().uri( authProperties.tokenApi() )
                 .header( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE )
                 .body( BodyInserters.fromFormData( AuthUtil.tokenRequest( authProperties.clientId(), authProperties.clientSecret(), code, authProperties.callbackRedirectUri() ) ) )
@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService
 
     public AuthValidateResponse getValidate( String accessToken )
     {
-        log.info( "Service -> getValidate" );
+        log.info( "{} -> getValidate", getClass().getSimpleName() );
         return webClient.post().uri( authProperties.validateApi() )
                 .headers( header -> header.setBasicAuth( authProperties.clientId(), authProperties.clientSecret() ) )
                 .header( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE )
@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService
 
     public AuthUserInfoResponse getUserInfo( String accessToken )
     {
-        log.info( "Service -> getUserInfo" );
+        log.info( "{} -> getUserInfo", getClass().getSimpleName() );
         return webClient.get().uri( authProperties.userInfoApi() )
                 .headers( header -> header.setBearerAuth( accessToken ) )
                 .header( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE )
@@ -84,7 +84,7 @@ public class AuthServiceImpl implements AuthService
 
     public void getRevoke( String accessToken )
     {
-        log.info( "Service -> getRevoke" );
+        log.info( "{} -> getRevoke", getClass().getSimpleName() );
         webClient.post().uri( authProperties.revokeApi() )
                 .headers( header -> header.setBasicAuth( authProperties.clientId(), authProperties.clientSecret() ) )
                 .header( HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE )
@@ -97,7 +97,7 @@ public class AuthServiceImpl implements AuthService
 
     public String getLogout()
     {
-        log.info( "Service -> getLogout" );
+        log.info( "{} -> getLogout", getClass().getSimpleName() );
         return getUri( authProperties.baseUrl(), authProperties.logoutApi(), AuthUtil.logoutRequest( AuthStorage.getAuthTokenResponse().tokenId(), authProperties.logoutRedirectUri() ) );
     }
 

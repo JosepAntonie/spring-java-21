@@ -26,40 +26,40 @@ public class UserServiceImpl implements UserService
 
     public List<UserResponse> findAll()
     {
-        log.info( "UserService -> findAll" );
+        log.info( "{} -> findAll", getClass().getSimpleName() );
         return userRepository.findAll();
     }
 
     public Page<UserResponse> findAllByFilter( FilterRequest<UserRequest> filterRequest )
     {
-        log.info( "UserService -> findAllByFilter" );
+        log.info( "{} -> findAllByFilter", getClass().getSimpleName() );
         return userRepository.findAllByFilter( filterRequest );
     }
 
     public Optional<UserResponse> findById( Long userId )
     {
-        log.info( "UserService -> findById" );
+        log.info( "{} -> findById", getClass().getSimpleName() );
         return userRepository.findById( userId );
     }
 
     @Transactional
     public UserResponse save( UserRequest userRequest )
     {
-        log.info( "UserService -> save" );
+        log.info( "{} -> save", getClass().getSimpleName() );
         return userRepository.save( userRequest );
     }
 
     @Transactional
     public UserResponse update( UserRequest userRequest )
     {
-        log.info( "UserService -> update" );
+        log.info( "{} -> update", getClass().getSimpleName() );
         return findById( userRequest.userId() ).map( u -> userRepository.save( userRequest ) ).orElseThrow( () -> new ResponseException( HttpStatus.BAD_REQUEST, "", "", null ) );
     }
 
     @Transactional
     public Boolean deleteById( Long userId )
     {
-        log.info( "UserService -> deleteById" );
+        log.info( "{} -> deleteById", getClass().getSimpleName() );
         return findById( userId ).map( u -> {
             userRepository.deleteById( userId );
             return Boolean.TRUE;
