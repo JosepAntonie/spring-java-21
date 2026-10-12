@@ -29,13 +29,13 @@ public class BatchTaskRepositoryImpl implements BatchTaskRepository
 
     public List<BatchTaskResponse> findAll()
     {
-        log.info( "{} -> FindAll", getClass().getSimpleName() );
+        log.info( "{} -> findAll", getClass().getSimpleName() );
         return batchTaskMapper.toBatchTaskResponseList( batchTaskJpa.findAll() );
     }
 
     public Page<BatchTaskResponse> findAllByFilter( FilterRequest<BatchTaskRequest> filterRequest )
     {
-        log.info( "{} -> FindAllByFilter", getClass().getSimpleName() );
+        log.info( "{} -> findAllByFilter", getClass().getSimpleName() );
         PageRequest pageRequest = PageRequest.of( filterRequest.pageNumber(), filterRequest.pageSize(), Sort.by( Sort.Order.asc( "taskId" ) ) );
         Page<BatchTaskEntity> batchTaskPage = batchTaskJpa.findAll( BatchTaskPredicate.findAllByFilter( filterRequest.request(), filterRequest.search() ), pageRequest );
         return new PageImpl<>( batchTaskMapper.toBatchTaskResponseList( batchTaskPage.getContent() ), pageRequest, batchTaskPage.getTotalElements() );
@@ -43,25 +43,25 @@ public class BatchTaskRepositoryImpl implements BatchTaskRepository
 
     public Optional<BatchTaskResponse> findById( Long taskId )
     {
-        log.info( "{} -> FindById", getClass().getSimpleName() );
+        log.info( "{} -> findById", getClass().getSimpleName() );
         return Optional.ofNullable( batchTaskMapper.toBatchTaskResponse( batchTaskJpa.findById( taskId ).orElse( null ) ) );
     }
 
     public Optional<BatchTaskResponse> findByTaskName( String taskName )
     {
-        log.info( "{} -> FindByBatchTaskName", getClass().getSimpleName() );
+        log.info( "{} -> findByBatchTaskName", getClass().getSimpleName() );
         return Optional.ofNullable( batchTaskMapper.toBatchTaskResponse( batchTaskJpa.findByTaskName( taskName ).orElse( null ) ) );
     }
 
     public BatchTaskResponse save( BatchTaskRequest batchTaskRequest )
     {
-        log.info( "{} -> Save", getClass().getSimpleName() );
+        log.info( "{} -> save", getClass().getSimpleName() );
         return batchTaskMapper.toBatchTaskResponse( batchTaskJpa.save( batchTaskMapper.toBatchTaskEntity(  batchTaskRequest ) ) );
     }
 
     public void deleteById( Long taskId )
     {
-        log.info( "{} -> DeleteById", getClass().getSimpleName() );
+        log.info( "{} -> deleteById", getClass().getSimpleName() );
         batchTaskJpa.deleteById( taskId );
     }
 }

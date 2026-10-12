@@ -4,6 +4,7 @@ import com.jos.ant.common.payload.request.UserRequest;
 import com.jos.ant.repository.mssql.entity.QUserEntity;
 import com.querydsl.core.BooleanBuilder;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.util.StringUtils;
 
 @Log4j2
 public class UserPredicate
@@ -14,20 +15,15 @@ public class UserPredicate
 
     public static BooleanBuilder findAllByFilter( UserRequest user, String search )
     {
-        log.info( "Predicate -> findAllByFilter" );
+        log.info( "{} -> findAllByFilter", UserPredicate.class.getSimpleName() );
         BooleanBuilder builder = new BooleanBuilder();
         QUserEntity userEntity = QUserEntity.userEntity;
-        if ( isNotNullOrEmpty( user.username() ) ) builder.and( userEntity.username.eq( user.username() ) );
+        if ( StringUtils.hasText( user.username() ) ) builder.and( userEntity.username.eq( user.username() ) );
         if ( user.active() != null ) builder.and( userEntity.active.eq( user.active() ) );
-        if ( isNotNullOrEmpty( search ) )
+        if ( StringUtils.hasText( search ) )
         {
             builder.and( userEntity.username.stringValue().toLowerCase().like( "%" + search + "%" ) );
         }
         return builder;
-    }
-
-    private static boolean isNotNullOrEmpty( String text )
-    {
-        return text != null && !text.isEmpty();
     }
 }

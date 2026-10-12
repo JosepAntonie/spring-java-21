@@ -29,13 +29,13 @@ public class UserRepositoryImpl implements UserRepository
 
     public List<UserResponse> findAll()
     {
-        log.info( "Repository -> FindAll" );
+        log.info( "{} -> findAll", getClass().getSimpleName() );
         return userMapper.toUserResponseList( userJpa.findAll() );
     }
 
     public Page<UserResponse> findAllByFilter( FilterRequest<UserRequest> filterRequest )
     {
-        log.info( "Repository -> FindAllByFilter" );
+        log.info( "{} -> findAllByFilter", getClass().getSimpleName() );
         PageRequest pageRequest = PageRequest.of( filterRequest.pageNumber(), filterRequest.pageSize(), Sort.by( Sort.Order.asc( "userId" ) ) );
         Page<UserEntity> usuarioPage = userJpa.findAll( UserPredicate.findAllByFilter( filterRequest.request(), filterRequest.search() ), pageRequest );
         return new PageImpl<>( userMapper.toUserResponseList( usuarioPage.getContent() ), pageRequest, usuarioPage.getTotalElements() );
@@ -43,19 +43,19 @@ public class UserRepositoryImpl implements UserRepository
 
     public Optional<UserResponse> findById( Long userId )
     {
-        log.info( "UserRepository -> FindById" );
+        log.info( "{} -> findById", getClass().getSimpleName() );
         return Optional.ofNullable( userMapper.toUserResponse( userJpa.findById( userId ).orElse( null ) ) );
     }
 
     public UserResponse save( UserRequest userRequest )
     {
-        log.info( "UserRepository -> Save" );
+        log.info( "{} -> save", getClass().getSimpleName() );
         return userMapper.toUserResponse( userJpa.save( userMapper.toUserEntity( userRequest ) ) );
     }
 
     public void deleteById( Long userId )
     {
-        log.info( "UserRepository -> Delete" );
+        log.info( "{} -> deleteById", getClass().getSimpleName() );
         userJpa.deleteById( userId );
     }
 }

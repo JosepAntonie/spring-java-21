@@ -68,7 +68,7 @@ class UserRepositoryTest
     void save()
     {
         when( mapper.toUserEntity( any( UserRequest.class ) ) ).thenReturn( new UserEntity() );
-        when( jpa.save( any( UserEntity.class ) ) ).thenReturn(  new UserEntity() );
+        when( jpa.save( any( UserEntity.class ) ) ).thenReturn( new UserEntity() );
         when( mapper.toUserResponse( any( UserEntity.class ) ) ).thenReturn( mock( UserResponse.class ) );
         assertNotNull( repository.save( mock( UserRequest.class ) ) );
     }

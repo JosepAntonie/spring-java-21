@@ -18,7 +18,7 @@ public class ShedLockCommandLineRunner implements CommandLineRunner
 
     public void run( String @NonNull ... args )
     {
-        log.info( "ShedLockCommandLineRunner -> run" );
+        log.info( "{} -> run", getClass().getSimpleName() );
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate( mysqlDataSource );
 
@@ -32,6 +32,6 @@ public class ShedLockCommandLineRunner implements CommandLineRunner
                 );
             """;
 
-        jdbcTemplate.execute(createTableQuery);
+        jdbcTemplate.execute( createTableQuery );
     }
 }

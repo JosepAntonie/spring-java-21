@@ -33,7 +33,7 @@ public class StartCommandLineRunner implements CommandLineRunner
 
     public void run( String @NonNull ... args )
     {
-        log.info( "StartCommandLineRunner -> Run" );
+        log.info( "{} -> Run", getClass().getSimpleName() );
 
         List<RoleEntity> startRoleEntityList = List.of( getRoleEntity( "God", "User God" ), getRoleEntity( "SuperAdmin", "Super Administrador" ), getRoleEntity( "Admin", "Administrador" ), getRoleEntity( "User", "Usuario" ) );
         List<RoleEntity> roleEntityList = roleJpa.findAll();

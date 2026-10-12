@@ -13,6 +13,7 @@ public record PersonResponse(
         String mail,
         String telephone,
         @JsonFormat( pattern = "yyyy-MM-dd" ) LocalDate birthday,
+        Boolean active,
         String createdBy,
         Instant createdDate,
         String lastModifiedBy,

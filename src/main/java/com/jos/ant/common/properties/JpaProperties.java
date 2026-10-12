@@ -1,11 +1,22 @@
 package com.jos.ant.common.properties;
 
 public record JpaProperties(
-        String ddlAuto,
+        HibernateProperties hibernate,
         String databasePlatform,
-        String physicalStrategy,
         Boolean generateDdl,
         Boolean showSql
 )
 {
+    public record HibernateProperties(
+            String ddlAuto,
+            NamingProperties naming
+    )
+    {
+    }
+
+    public record NamingProperties(
+            String physicalStrategy
+    )
+    {
+    }
 }

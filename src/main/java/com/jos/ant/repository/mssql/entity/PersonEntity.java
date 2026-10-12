@@ -34,4 +34,7 @@ public class PersonEntity extends AuditingEntity<String>
 
     @Column( name = "DD_BIRTHDAY", columnDefinition = "date" )
     private LocalDate birthday;
+
+    @Column( name = "DN_ACTIVE", nullable = false )
+    private Boolean active;
 }
