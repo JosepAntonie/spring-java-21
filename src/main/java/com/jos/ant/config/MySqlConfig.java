@@ -26,43 +26,41 @@ import javax.sql.DataSource;
 @EnableJpaRepositories( transactionManagerRef = "mysqlTransactionManager", entityManagerFactoryRef = "mysqlEntityManager", basePackages = { "com.jos.ant.repository.mysql.impl", "com.jos.ant.repository.mysql.jpa" } )
 public class MySqlConfig extends DatabaseConfigFactory
 {
-    private static final String CONFIG_NAME = "MySqlConfig";
-
     @Primary @Bean @ConfigurationProperties( "mysql.datasource" )
     public DataSourceProperties mysqlDataSourceProperties()
     {
-        log.info( "{} -> dataSourceProperties", CONFIG_NAME );
+        log.info( "{} -> dataSourceProperties", getClass().getSimpleName() );
         return new DataSourceProperties();
     }
 
     @Primary @Bean
     public JpaProperties mysqlJpaProperties( Environment environment )
     {
-        log.info( "{} -> JpaProperties", CONFIG_NAME );
-        return Binder.get( environment ).bind( "mysql.jpa", JpaProperties.class ).orElseGet( () -> new JpaProperties( null, null, null, false, false ) );
+        log.info( "{} -> JpaProperties", getClass().getSimpleName() );
+        return Binder.get( environment ).bind( "mysql.jpa", JpaProperties.class ).orElseGet( () -> new JpaProperties( null, null, false, false ) );
     }
 
     @Primary @Bean
     public DataSource mysqlDataSource( @Qualifier( "mysqlDataSourceProperties" ) DataSourceProperties mysqlDataSourceProperties )
     {
-        return dataSource( mysqlDataSourceProperties, CONFIG_NAME );
+        return dataSource( mysqlDataSourceProperties, getClass().getSimpleName() );
     }
 
     @Primary @Bean
-    public EntityManagerFactoryBuilder mysqlEntityManagerFactoryBuilder( @Qualifier( "mysqlJpaProperties" )JpaProperties jpaProperties )
+    public EntityManagerFactoryBuilder mysqlEntityManagerFactoryBuilder( @Qualifier( "mysqlJpaProperties" ) JpaProperties jpaProperties )
     {
-        return entityManagerFactoryBuilder( jpaProperties, CONFIG_NAME );
+        return entityManagerFactoryBuilder( jpaProperties, getClass().getSimpleName() );
     }
 
     @Primary @Bean
     public LocalContainerEntityManagerFactoryBean mysqlEntityManager( @Qualifier( "mysqlEntityManagerFactoryBuilder" ) EntityManagerFactoryBuilder entityManagerFactoryBuilder, @Qualifier( "mysqlDataSource" ) DataSource mysqlDataSource )
     {
-        return entityManager( entityManagerFactoryBuilder, mysqlDataSource, "com.jos.ant.repository.mysql", CONFIG_NAME );
+        return entityManager( entityManagerFactoryBuilder, mysqlDataSource, "com.jos.ant.repository.mysql", getClass().getSimpleName() );
     }
 
     @Primary @Bean
     public PlatformTransactionManager mysqlTransactionManager( @Qualifier( "mysqlEntityManager" ) EntityManagerFactory mysqlEntityManagerFactory )
     {
-        return platformTransactionManager( mysqlEntityManagerFactory, CONFIG_NAME );
+        return platformTransactionManager( mysqlEntityManagerFactory, getClass().getSimpleName() );
     }
 }

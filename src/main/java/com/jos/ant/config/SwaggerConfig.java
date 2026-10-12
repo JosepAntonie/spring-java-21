@@ -23,7 +23,7 @@ public class SwaggerConfig
     @Bean
     public OpenAPI customerOpenAPI()
     {
-        log.info( "SwaggerConfig -> customerOpenAPI" );
+        log.info( "{} -> customerOpenAPI", getClass().getSimpleName() );
         return new OpenAPI().addSecurityItem( getSecurityRequirement() ).components( getComponents() ).info( getInfo() );
     }
 

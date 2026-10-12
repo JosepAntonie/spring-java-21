@@ -26,46 +26,44 @@ import javax.sql.DataSource;
 @EnableJpaRepositories( transactionManagerRef = "mssqlTransactionManager", entityManagerFactoryRef = "mssqlEntityManager", basePackages = { "com.jos.ant.repository.mssql.impl", "com.jos.ant.repository.mssql.jpa" } )
 public class MsSqlConfig extends DatabaseConfigFactory
 {
-    private static final String CONFIG_NAME = "MsSqlConfig";
-
     @Value( "${mssql.datasource.hikari.data-source-properties.authentication}" )
     private String dataSourceAuthentication;
 
     @Bean @ConfigurationProperties( "mssql.datasource" )
     public DataSourceProperties mssqlDataSourceProperties()
     {
-        log.info( "{} -> dataSourceProperties", CONFIG_NAME );
+        log.info( "{} -> dataSourceProperties", getClass().getSimpleName() );
         return new DataSourceProperties();
     }
 
     @Bean
     public JpaProperties mssqlJpaProperties( Environment environment )
     {
-        log.info( "{} -> jpaProperties", CONFIG_NAME );
-        return Binder.get( environment ).bind( "mssql.jpa", JpaProperties.class ).orElseGet( () -> new JpaProperties( null, null, null, false, false ) );
+        log.info( "{} -> jpaProperties", getClass().getSimpleName() );
+        return Binder.get( environment ).bind( "mssql.jpa", JpaProperties.class ).orElseGet( () -> new JpaProperties( null, null, false, false ) );
     }
 
     @Bean
     public DataSource mssqlDataSource( @Qualifier( "mssqlDataSourceProperties" ) DataSourceProperties mssqlDataSourceProperties )
     {
-        return dataSource( mssqlDataSourceProperties, CONFIG_NAME );
+        return dataSource( mssqlDataSourceProperties, getClass().getSimpleName() );
     }
 
     @Bean
     public EntityManagerFactoryBuilder mssqlEntityManagerFactoryBuilder( @Qualifier( "mssqlJpaProperties" )JpaProperties jpaProperties )
     {
-        return entityManagerFactoryBuilder( jpaProperties, CONFIG_NAME );
+        return entityManagerFactoryBuilder( jpaProperties, getClass().getSimpleName() );
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean mssqlEntityManager( @Qualifier( "mssqlEntityManagerFactoryBuilder" ) EntityManagerFactoryBuilder mssqlEntityManagerFactoryBuilder, @Qualifier( "mssqlDataSource" ) DataSource mssqlDataSource )
     {
-        return entityManager( mssqlEntityManagerFactoryBuilder, mssqlDataSource, "com.jos.ant.repository.mssql", CONFIG_NAME );
+        return entityManager( mssqlEntityManagerFactoryBuilder, mssqlDataSource, "com.jos.ant.repository.mssql", getClass().getSimpleName() );
     }
 
     @Bean
     public PlatformTransactionManager mssqlTransactionManager ( @Qualifier( "mssqlEntityManager" ) EntityManagerFactory mssqlEntityManagerFactory )
     {
-        return platformTransactionManager( mssqlEntityManagerFactory, CONFIG_NAME );
+        return platformTransactionManager( mssqlEntityManagerFactory, getClass().getSimpleName() );
     }
 }

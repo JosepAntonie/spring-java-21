@@ -4,6 +4,7 @@ import com.jos.ant.security.JwtAccessDeniedHandler;
 import com.jos.ant.security.JwtAuthenticationEntryPoint;
 import com.jos.ant.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -23,6 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.time.Duration;
 import java.util.List;
 
+@Log4j2
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -33,6 +35,7 @@ public class WebSecurityConfig
     @Bean
     public SecurityFilterChain securityFilterChain( HttpSecurity httpSecurity )
     {
+        log.info( "{} -> securityFilterChain", getClass().getSimpleName() );
         httpSecurity.csrf( AbstractHttpConfigurer::disable )
                 .cors( cors -> cors.configurationSource( corsConfigurationSource() ) )
                 .addFilterBefore( jwtFilter, UsernamePasswordAuthenticationFilter.class )
@@ -51,6 +54,7 @@ public class WebSecurityConfig
     @Bean
     public CsrfTokenRepository csrfTokenRepository()
     {
+        log.info( "{} -> csrfTokenRepository", getClass().getSimpleName() );
         CookieCsrfTokenRepository cookieCsrfTokenRepository = new CookieCsrfTokenRepository();
         cookieCsrfTokenRepository.setCookieCustomizer( customizer -> customizer.maxAge(Duration.ofMinutes( 30 ) ) );
         return cookieCsrfTokenRepository;
@@ -59,6 +63,7 @@ public class WebSecurityConfig
     @Bean
     public CorsConfigurationSource corsConfigurationSource()
     {
+        log.info( "{} -> corsConfigurationSource", getClass().getSimpleName() );
         CorsConfiguration  corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins( List.of( "http://localhost:3001", "http://localhost:8080" ) );
         corsConfiguration.setAllowedMethods( List.of( HttpMethod.GET.toString(), HttpMethod.POST.toString(), HttpMethod.PUT.toString(), HttpMethod.DELETE.toString(), HttpMethod.OPTIONS.toString() ) );

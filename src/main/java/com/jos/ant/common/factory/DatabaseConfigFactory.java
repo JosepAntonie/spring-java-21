@@ -35,7 +35,7 @@ public abstract class DatabaseConfigFactory
     protected EntityManagerFactoryBuilder entityManagerFactoryBuilder( JpaProperties jpaProperties, String configName )
     {
         log.info( "{} -> entityManagerFactoryBuilder", configName );
-        return new EntityManagerFactoryBuilder( getHibernateJpaVendorAdapter( jpaProperties, configName ), dataSource -> Map.of( "hibernate.hbm2ddl.auto", jpaProperties.ddlAuto(), "hibernate.physical_naming_strategy", jpaProperties.physicalStrategy() ), null );
+        return new EntityManagerFactoryBuilder( getHibernateJpaVendorAdapter( jpaProperties, configName ), dataSource -> Map.of( "hibernate.hbm2ddl.auto", jpaProperties.hibernate().ddlAuto(), "hibernate.physical_naming_strategy", jpaProperties.hibernate().naming().physicalStrategy() ), null );
     }
 
     protected LocalContainerEntityManagerFactoryBean entityManager( EntityManagerFactoryBuilder entityManagerFactoryBuilder, DataSource dataSource, String packages, String configName )

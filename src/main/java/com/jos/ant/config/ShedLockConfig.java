@@ -1,5 +1,6 @@
 package com.jos.ant.config;
 
+import lombok.extern.log4j.Log4j2;
 import net.javacrumbs.shedlock.core.LockProvider;
 import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider;
 import net.javacrumbs.shedlock.provider.jdbctemplate.JdbcTemplateLockProvider.ColumnNames;
@@ -12,6 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.sql.DataSource;
 
+@Log4j2
 @Configuration
 @EnableScheduling
 @EnableSchedulerLock( defaultLockAtMostFor = "10m" )
@@ -20,6 +22,7 @@ public class ShedLockConfig
     @Bean
     public LockProvider lockProvider( @Qualifier( "mysqlDataSource" ) DataSource dataSource )
     {
+        log.info( "{} -> lockProvider", getClass().getSimpleName() );
         return new JdbcTemplateLockProvider(
                 JdbcTemplateLockProvider.Configuration.builder()
                         .withJdbcTemplate( new JdbcTemplate( dataSource ) )
