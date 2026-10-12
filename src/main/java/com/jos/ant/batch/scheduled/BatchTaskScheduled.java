@@ -1,4 +1,4 @@
-package com.jos.ant.scheduled;
+package com.jos.ant.batch.scheduled;
 
 import com.jos.ant.common.exception.ApplicationException;
 import com.jos.ant.common.payload.response.BatchTaskResponse;
